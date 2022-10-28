@@ -1,0 +1,14 @@
+
+<div>
+  Logged in user: {{userService.getLoggedInUser()?.userName}}
+  <button class="btn btn-primary" (click)="userService.logout()">Log out</button>
+</div>
+
+<div class="flex align-items-center justify-content-center">
+
+  <div *ngFor="let lotteryInput of lotteryInputs; let index = index;" class="mx-2 d-inline-block">
+    <app-lottery-input [formControl]="lotteryInput" [index]="index + 1"></app-lottery-input>
+  </div>
+
+</div>
+

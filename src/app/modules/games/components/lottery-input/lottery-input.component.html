@@ -1,0 +1,33 @@
+
+<div class="d-inline-block">
+
+  <div class="lottery-input-header">
+    <div>
+      <fa-icon icon="shuffle"></fa-icon> RND
+    </div>
+
+    <div (click)="removeNumbers()">
+      <fa-icon icon="trash-can"></fa-icon> Del
+    </div>
+  </div>
+
+  <div class="lottery-input-panel">
+
+    <div *ngFor="let row of numbers; let xIndex = index" class="lottery-row">
+
+      <div *ngFor="let numberData of row; let yIndex = index" class="lottery-number" (click)="checkNumber(xIndex, yIndex)">
+
+        {{numberData.num}}
+
+        <div *ngIf="numberData.checked" class="lottery-number-checked">
+          X
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="index != null" class="lottery-input-index">
+      {{index}}
+    </div>
+
+  </div>
+</div>

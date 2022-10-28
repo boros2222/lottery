@@ -1,0 +1,54 @@
+
+<form [formGroup]="loginForm" (submit)="login()">
+
+  <div>
+    <div>User:</div>
+
+    <ng-select formControlName="user">
+      <ng-option *ngFor="let user of userService.getUsers()" [value]="user.userId">{{user.userName}} (ID: {{user.userId}})</ng-option>
+    </ng-select>
+
+    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
+      <div *ngIf="loginForm.get('user')?.errors?.['required']" class="text-danger">
+        User is required
+      </div>
+    </ng-container>
+  </div>
+
+  <div>
+    <div>User ID:</div>
+
+    <div>
+      <input type="text" formControlName="userId"/>
+    </div>
+
+    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
+      <div *ngIf="loginForm.get('userId')?.errors?.['required']" class="text-danger">
+        User ID is required
+      </div>
+    </ng-container>
+  </div>
+
+  <div>
+    <div>Password:</div>
+
+    <div>
+      <input type="password" formControlName="password"/>
+    </div>
+
+    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
+      <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger">
+        Password is required
+      </div>
+    </ng-container>
+  </div>
+
+  <div>
+    <button class="btn btn-primary" [disabled]="userService.isLoginProgress()">Login</button>
+  </div>
+
+  <div *ngIf="userService.isLoginProgress()">
+    Logging in...
+  </div>
+
+</form>

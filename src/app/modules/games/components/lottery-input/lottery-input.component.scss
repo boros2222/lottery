@@ -1,0 +1,46 @@
+
+.lottery-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.lottery-input-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lottery-row {
+  display: flex;
+}
+
+.lottery-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  margin-bottom: 4px;
+  margin-right: 4px;
+}
+
+.lottery-number-checked {
+  color: black;
+  position: absolute;
+  font-size: 22px;
+}
+
+.lottery-input-index {
+  color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  font-size: 220px;
+  font-weight: bold;
+  z-index: -1;
+}
