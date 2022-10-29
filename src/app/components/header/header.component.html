@@ -1,0 +1,24 @@
+
+<div class="w-100 shadow header-panel">
+
+  <div class="container py-3 d-flex align-items-center justify-content-between">
+    <div>
+      <div *ngIf="userService.isLoggedIn()">
+        <div>Logged in user:</div>
+        <div class="fw-bold">{{userService.getLoggedInUser()?.userName}}</div>
+      </div>
+    </div>
+
+    <h2>
+      Lucky Six Lottery
+    </h2>
+
+    <div>
+      <div *ngIf="userService.isLoggedIn()"
+           (click)="userService.logout()">
+        <fa-icon icon="right-from-bracket"></fa-icon> Logout
+      </div>
+    </div>
+  </div>
+
+</div>

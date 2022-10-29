@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom variables
+@import "variables";
+
+// Bootstrap and its default variables
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// ng-select styles
+@import "node_modules/@ng-select/ng-select/scss/default.theme";
+
+// Custom styles
+html, body {
+  height: 100%;
+}
+
+.flex-center {
+  @extend .d-flex;
+  @extend .align-items-center;
+  @extend .justify-content-center;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  border: 1px solid $input-focus-border-color;
+  box-shadow: $input-focus-box-shadow;
+}
+

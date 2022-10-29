@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormControl, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {Router} from "@angular/router";
@@ -17,6 +17,8 @@ export class LoginPageComponent implements OnInit {
     password: new FormControl<string | null>(null, [Validators.required]),
   });
 
+  loginFailed: boolean = false;
+
   constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
@@ -31,6 +33,7 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
+    this.loginFailed = false;
     this.loginForm.disable();
 
     this.userService.login(
@@ -40,28 +43,35 @@ export class LoginPageComponent implements OnInit {
       if (loggedIn) {
         this.router.navigate(['/games/lottery'])
       } else {
+        this.loginFailed = true;
         this.loginForm.enable();
       }
     });
   }
 
   private userOnChange(userId: number | null) {
-    if (userId === null) {
-      this.loginForm.get('userId')?.setValue(null, {emitEvent: false});
-    } else {
-      this.loginForm.get('userId')?.setValue(userId.toString(), {emitEvent: false});
+    let value: string | null = null;
+
+    if (userId !== null && userId !== undefined) {
+      value = userId.toString();
     }
+
+    this.loginForm.get('userId')?.setValue(value, { emitEvent: false });
+    this.loginForm.get('userId')?.markAsTouched();
   }
 
   private userIdOnChange(userId: string | null): void {
+    let value: number | null = null;
+
     if (userId !== null && userId !== '') {
       const user: User | null = this.userService.findUser(parseInt(userId));
       if (user != null) {
-        this.loginForm.get('user')?.setValue(user.userId, {emitEvent: false});
-        return;
+        value = user.userId;
       }
     }
-    this.loginForm.get('user')?.setValue(null, {emitEvent: false});
+
+    this.loginForm.get('user')?.setValue(value, { emitEvent: false });
+    this.loginForm.get('user')?.markAsTouched();
   }
 
 }

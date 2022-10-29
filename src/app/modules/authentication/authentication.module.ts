@@ -5,10 +5,12 @@ import {AuthenticationRoutingModule} from './authentication-routing.module';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {SpinnerComponent} from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
-    LoginPageComponent
+    LoginPageComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,

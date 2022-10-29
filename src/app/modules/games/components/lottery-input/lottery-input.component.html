@@ -1,17 +1,17 @@
 
-<div class="d-inline-block">
+<div class="lottery-input-panel d-inline-block">
 
   <div class="lottery-input-header">
-    <div>
+    <div (click)="setRandomNumbers()">
       <fa-icon icon="shuffle"></fa-icon> RND
     </div>
 
-    <div (click)="removeNumbers()">
+    <div (click)="deleteNumbers()">
       <fa-icon icon="trash-can"></fa-icon> Del
     </div>
   </div>
 
-  <div class="lottery-input-panel">
+  <div class="lottery-input-numbers">
 
     <div *ngFor="let row of numbers; let xIndex = index" class="lottery-row">
 

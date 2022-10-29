@@ -59,9 +59,15 @@ export class UserService {
     this.loginProgress = true;
 
     return of(passwordIsCorrect).pipe(
-      delay(1000),
-      tap({ next: () => this.cookieService.put(USER_COOKIE_NAME, userId.toString()) }),
-      tap({ next: () => this.checkUserCookie()}),
+      delay(2000), // imitate backend call
+      tap({
+        next: (value) => {
+          if (value) {
+            this.cookieService.put(USER_COOKIE_NAME, userId.toString());
+            this.checkUserCookie();
+          }
+        }
+      }),
       finalize(() => this.loginProgress = false)
     );
   }

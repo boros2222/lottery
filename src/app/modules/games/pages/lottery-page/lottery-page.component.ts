@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {UserService} from "../../../authentication/services/user.service";
-import {FormControl} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, ValidationErrors, ValidatorFn} from "@angular/forms";
 
 @Component({
   selector: 'app-lottery-page',
@@ -9,18 +8,56 @@ import {FormControl} from "@angular/forms";
 })
 export class LotteryPageComponent implements OnInit {
 
-  private NUMBER_OF_LOTTERY_INPUTS = 4;
+  public NUMBER_OF_LOTTERY_INPUTS = 4;
+  public CORRECT_LENGTH_OF_NUMBERS = 6;
+  public WIDTH_OF_LOTTERY_INPUT = 7;
+  public HEIGHT_OF_LOTTERY_INPUT = 7;
 
   lotteryInputs: FormControl<number[] | null>[] = [];
 
-  constructor(public userService: UserService) { }
+  played: boolean = false;
+
+  constructor() { }
 
   ngOnInit(): void {
     for (let i = 0; i < this.NUMBER_OF_LOTTERY_INPUTS; i++) {
-      const formControl: FormControl<number[] | null> = new FormControl([]);
-      formControl.valueChanges.subscribe((value) => console.log(i + ". ", value));
-      this.lotteryInputs.push(formControl);
+      this.lotteryInputs.push(new FormControl([],
+        [this.numbersLengthValidator(this.CORRECT_LENGTH_OF_NUMBERS)])
+      );
     }
+  }
+
+  play(): void {
+    for (const lotteryInput of this.lotteryInputs) {
+      lotteryInput.markAsTouched();
+    }
+    this.played = true;
+  }
+
+  numbersLengthValidator(correctLengthOfNumbers: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value: number[] = control.value;
+      if (value === null || value === undefined || value.length === 0) {
+        return {
+          empty: true
+        };
+      }
+      else if (value.length < correctLengthOfNumbers) {
+        return {
+          lessThan: {
+            value: correctLengthOfNumbers - value.length
+          }
+        };
+      }
+      else if (value.length > correctLengthOfNumbers) {
+        return {
+          greaterThan: {
+            value: value.length - correctLengthOfNumbers
+          }
+        };
+      }
+      return null;
+    };
   }
 
 }

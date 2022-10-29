@@ -29,6 +29,9 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   public height: number = 7;
 
+  @Input()
+  public randomNumbers: number = 6;
+
   public numbers: ({num: number, checked: boolean}[])[] = [];
 
   private onChange: Function = () => {};
@@ -79,7 +82,42 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
     this.onTouch(checkedNumbers);
   }
 
-  removeNumbers(): void {
+  setRandomNumbers(): void {
+    const maxNumber: number = this.width * this.height;
+    let checkedNumbers: number[] = [];
+
+    for (let i = 0; i < this.randomNumbers; i++) {
+      let randomNumber: number | null = null;
+
+      do {
+        randomNumber = Math.floor(Math.random() * maxNumber) + 1;
+      } while (checkedNumbers.includes(randomNumber));
+
+      checkedNumbers.push(randomNumber);
+    }
+
+    checkedNumbers = checkedNumbers.sort((a, b) => a - b);
+
+    this.setCheckedNumbers(checkedNumbers);
+    this.onChange(checkedNumbers);
+    this.onTouch(checkedNumbers);
+  }
+
+  setCheckedNumbers(numbers: number[]): void {
+    for (let row of this.numbers) {
+      for (let numberData of row) {
+        numberData.checked = numbers.includes(numberData.num);
+      }
+    }
+  }
+
+  deleteNumbers(): void {
+    this.clearTable();
+    this.onChange([]);
+    this.onTouch([]);
+  }
+
+  private clearTable(): void {
     for (let row of this.numbers) {
       for (let numberData of row) {
         numberData.checked = false;
@@ -93,13 +131,9 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: number[] | null | undefined): void {
     if (value === null || value === undefined || value.length === 0) {
-      this.removeNumbers();
+      this.clearTable();
     } else {
-      for (let row of this.numbers) {
-        for (let numberData of row) {
-          numberData.checked = value.includes(numberData.num);
-        }
-      }
+      this.setCheckedNumbers(value);
     }
   }
 

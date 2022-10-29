@@ -1,54 +1,63 @@
 
-<form [formGroup]="loginForm" (submit)="login()">
+<div class="w-100 row flex-center mx-0">
 
-  <div>
-    <div>User:</div>
+  <div class="col-sm-12 col-md-8 col-lg-6 p-5 bg-white rounded shadow">
 
-    <ng-select formControlName="user">
-      <ng-option *ngFor="let user of userService.getUsers()" [value]="user.userId">{{user.userName}} (ID: {{user.userId}})</ng-option>
-    </ng-select>
+    <h2 class="mb-5">Please log in:</h2>
 
-    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
-      <div *ngIf="loginForm.get('user')?.errors?.['required']" class="text-danger">
-        User is required
+    <form [formGroup]="loginForm" (submit)="login()">
+
+      <div class="mb-3">
+        <label for="user">User:</label>
+        <ng-select id="user" formControlName="user">
+          <ng-option *ngFor="let user of userService.getUsers()" [value]="user.userId">{{user.userName}} (ID: {{user.userId}})</ng-option>
+        </ng-select>
+        <ng-container *ngIf="loginForm.get('user')?.touched || loginForm.get('user')?.dirty">
+          <div *ngIf="loginForm.get('user')?.errors?.['required']" class="text-danger">
+            User is required
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
-  </div>
 
-  <div>
-    <div>User ID:</div>
-
-    <div>
-      <input type="text" formControlName="userId"/>
-    </div>
-
-    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
-      <div *ngIf="loginForm.get('userId')?.errors?.['required']" class="text-danger">
-        User ID is required
+      <div class="mb-3">
+        <label for="userId">User ID:</label>
+        <div>
+          <input id="userId" type="text" formControlName="userId" class="form-control bg-white"/>
+        </div>
+        <ng-container *ngIf="loginForm.get('userId')?.touched || loginForm.get('userId')?.dirty">
+          <div *ngIf="loginForm.get('userId')?.errors?.['required']" class="text-danger">
+            User ID is required
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
-  </div>
 
-  <div>
-    <div>Password:</div>
-
-    <div>
-      <input type="password" formControlName="password"/>
-    </div>
-
-    <ng-container *ngIf="loginForm.touched || loginForm.dirty">
-      <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger">
-        Password is required
+      <div class="mb-3">
+        <label for="password">Password:</label>
+        <div>
+          <input id="password" type="password" formControlName="password" class="form-control bg-white"/>
+        </div>
+        <ng-container *ngIf="loginForm.get('password')?.touched || loginForm.get('password')?.dirty">
+          <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger">
+            Password is required
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
+
+      <div class="mt-4">
+        <button class="btn btn-primary" [disabled]="userService.isLoginProgress()">Login</button>
+      </div>
+
+      <div *ngIf="userService.isLoginProgress()" class="mt-4 d-flex align-items-center">
+        Logging in... <app-spinner></app-spinner>
+      </div>
+
+      <div *ngIf="loginFailed" class="text-danger mt-4">
+        The given credentials are incorrect!
+      </div>
+
+    </form>
+
   </div>
 
-  <div>
-    <button class="btn btn-primary" [disabled]="userService.isLoginProgress()">Login</button>
-  </div>
+</div>
 
-  <div *ngIf="userService.isLoginProgress()">
-    Logging in...
-  </div>
-
-</form>

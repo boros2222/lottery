@@ -1,14 +1,38 @@
 
-<div>
-  Logged in user: {{userService.getLoggedInUser()?.userName}}
-  <button class="btn btn-primary" (click)="userService.logout()">Log out</button>
-</div>
+<div class="p-5 bg-white rounded shadow">
 
-<div class="flex align-items-center justify-content-center">
+  <div class="flex-center flex-wrap">
+    <div *ngFor="let lotteryInput of lotteryInputs; let index = index;"
+         class="m-4 d-inline-block">
 
-  <div *ngFor="let lotteryInput of lotteryInputs; let index = index;" class="mx-2 d-inline-block">
-    <app-lottery-input [formControl]="lotteryInput" [index]="index + 1"></app-lottery-input>
+      <app-lottery-input [formControl]="lotteryInput"
+                         [index]="index + 1"
+                         [width]="WIDTH_OF_LOTTERY_INPUT"
+                         [height]="HEIGHT_OF_LOTTERY_INPUT"
+                         [randomNumbers]="CORRECT_LENGTH_OF_NUMBERS">
+      </app-lottery-input>
+    </div>
+  </div>
+
+  <div class="flex-center mt-2">
+    <button class="btn btn-danger px-5" (click)="play()">Play</button>
+  </div>
+
+  <div *ngIf="played" class="mt-3">
+    <div *ngFor="let lotteryInput of lotteryInputs; let index = index;">
+
+      <span>Panel {{index + 1}}: </span>
+
+      <ng-container *ngIf="!lotteryInput.errors">
+        <span>{{lotteryInput.value | numbersToText}}</span>
+      </ng-container>
+
+      <ng-container *ngIf="lotteryInput.errors">
+        <span *ngIf="lotteryInput.errors['empty']">empty</span>
+        <span *ngIf="lotteryInput.errors['lessThan']">Error: {{lotteryInput.errors['lessThan'].value}} marks are missing</span>
+        <span *ngIf="lotteryInput.errors['greaterThan']">Error: Please remove {{lotteryInput.errors['greaterThan'].value}} marks</span>
+      </ng-container>
+    </div>
   </div>
 
 </div>
-
