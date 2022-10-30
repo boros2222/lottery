@@ -1,12 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { DefaultGuard } from './default.guard';
+import {DefaultGuard} from './default.guard';
+import {CookieModule} from "ngx-cookie";
 
 describe('DefaultGuard', () => {
   let guard: DefaultGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [ CookieModule.withOptions() ]
+    });
     guard = TestBed.inject(DefaultGuard);
   });
 

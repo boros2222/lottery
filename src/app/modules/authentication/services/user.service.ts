@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from "../models/user";
-import {USER_COOKIE_NAME, USER_PASSWORD_MAP, USERS} from "../models/constants";
+import {USER_COOKIE_NAME, USER_PASSWORD_MAP, USERS} from "../constants";
 import {delay, finalize, Observable, of, tap} from "rxjs";
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";

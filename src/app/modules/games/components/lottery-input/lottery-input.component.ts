@@ -2,6 +2,7 @@ import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {FaIconLibrary} from "@fortawesome/angular-fontawesome";
 import {faShuffle, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {NumbersGeneratorService} from "../../services/numbers-generator.service";
 
 @Component({
   selector: 'app-lottery-input',
@@ -30,7 +31,7 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
   public height: number = 7;
 
   @Input()
-  public randomNumbers: number = 6;
+  public randomNumbersLength: number = 6;
 
   public numbers: ({num: number, checked: boolean}[])[] = [];
 
@@ -38,7 +39,9 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
 
   private onTouch: Function = () => {};
 
-  constructor(library: FaIconLibrary) {
+  constructor(private library: FaIconLibrary,
+              private numbersGeneratorService: NumbersGeneratorService) {
+
     library.addIcons(faTrashCan, faShuffle);
   }
 
@@ -84,23 +87,13 @@ export class LotteryInputComponent implements OnInit, ControlValueAccessor {
 
   setRandomNumbers(): void {
     const maxNumber: number = this.width * this.height;
-    let checkedNumbers: number[] = [];
 
-    for (let i = 0; i < this.randomNumbers; i++) {
-      let randomNumber: number | null = null;
+    const randomNumbers: number[] = this.numbersGeneratorService.generateRandomDifferentNumbers(
+      maxNumber, this.randomNumbersLength);
 
-      do {
-        randomNumber = Math.floor(Math.random() * maxNumber) + 1;
-      } while (checkedNumbers.includes(randomNumber));
-
-      checkedNumbers.push(randomNumber);
-    }
-
-    checkedNumbers = checkedNumbers.sort((a, b) => a - b);
-
-    this.setCheckedNumbers(checkedNumbers);
-    this.onChange(checkedNumbers);
-    this.onTouch(checkedNumbers);
+    this.setCheckedNumbers(randomNumbers);
+    this.onChange(randomNumbers);
+    this.onTouch(randomNumbers);
   }
 
   setCheckedNumbers(numbers: number[]): void {

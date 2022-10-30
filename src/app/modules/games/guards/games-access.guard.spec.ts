@@ -1,12 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { GamesAccessGuard } from './games-access.guard';
+import {GamesAccessGuard} from './games-access.guard';
+import {CookieModule} from "ngx-cookie";
 
 describe('GamesAccessGuard', () => {
   let guard: GamesAccessGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [ CookieModule.withOptions() ]
+    });
     guard = TestBed.inject(GamesAccessGuard);
   });
 

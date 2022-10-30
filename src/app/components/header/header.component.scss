@@ -4,4 +4,7 @@
 .header-panel {
   background-color: $header-bg;
   color: $header-text;
+  height: $header-height;
+  position: fixed;
+  z-index: 100;
 }
