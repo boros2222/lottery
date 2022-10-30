@@ -22,7 +22,7 @@
       <div class="mb-3">
         <label for="userId">User ID:</label>
         <div>
-          <input id="userId" type="text" formControlName="userId" class="form-control bg-white"/>
+          <input id="userId" type="text" formControlName="userId" class="form-control"/>
         </div>
         <ng-container *ngIf="loginForm.get('userId')?.touched || loginForm.get('userId')?.dirty">
           <div *ngIf="loginForm.get('userId')?.errors?.['required']" class="text-danger">
@@ -34,7 +34,7 @@
       <div class="mb-3">
         <label for="password">Password:</label>
         <div>
-          <input id="password" type="password" formControlName="password" class="form-control bg-white"/>
+          <input id="password" type="password" formControlName="password" class="form-control"/>
         </div>
         <ng-container *ngIf="loginForm.get('password')?.touched || loginForm.get('password')?.dirty">
           <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger">
